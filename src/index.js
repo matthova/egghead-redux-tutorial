@@ -9,6 +9,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './extra';
+import './counter';
 
 function render() {
   ReactDOM.render(
