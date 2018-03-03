@@ -8,6 +8,7 @@ import visibilityFilter from './reducers/visibilityFilter';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import './extra';
 
 function render() {
   ReactDOM.render(
