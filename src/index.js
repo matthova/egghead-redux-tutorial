@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Redux from 'redux';
 
-import Filters from './Filters';
-import { ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER } from './Constants';
+import todos from './reducers/todos';
+import visibilityFilter from './reducers/visibilityFilter';
 
 import './index.css';
 import App from './App';
@@ -15,38 +15,6 @@ function render() {
     document.getElementById('root'),
   );
 }
-
-/*
- * Reducers
- */
-
-const visibilityFilter = (state = Filters.SHOW_ALL, action) => {
-  switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return action.filter;
-    default:
-      return state;
-  }
-};
-
-const todos = (state = [], action) => {
-  switch (action.type) {
-    case ADD_TODO:
-      return [
-        ...state,
-        {
-          text: action.text,
-          id: action.id,
-          completed: false,
-        },
-      ];
-    case TOGGLE_TODO:
-      return state.map(todo =>
-        (todo.id === action.id ? Object.assign({}, todo, { completed: !todo.completed }) : todo));
-    default:
-      return state;
-  }
-};
 
 const todoApp = Redux.combineReducers({
   visibilityFilter,

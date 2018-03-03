@@ -3,28 +3,20 @@ import Filters from './Filters';
 import { ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER } from './Constants';
 
 /*
- * We will be explaining the code below
- * in the following lessons. For now,
- * feel free to click around and notice
- * how the dispatched action is logged
- * to the console on every change.
- */
-
-/*
  * Components
  */
 class AddTodo extends Component {
   render() {
     return (
       <div>
-        <input type="text" ref="input" />
+        <input ref={ref => (this.input = ref)} type="text" />
         <button onClick={e => this.handleClick(e)}>Add</button>
       </div>
     );
   }
 
   handleClick(e) {
-    const node = this.refs.input;
+    const node = this.input;
     const text = node.value.trim();
     this.props.onAddClick(text);
     node.value = '';
