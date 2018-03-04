@@ -36,7 +36,15 @@ class TodoApp extends Component {
           todos={visibleTodos}
           onTodoClick={id => store.dispatch({ type: 'TOGGLE_TODO', id })}
         />
-        <VisibilityFilter currentFilter={visibilityFilter} store={store} />
+        <VisibilityFilter
+          currentFilter={visibilityFilter}
+          onFilterClick={(filter) => {
+            store.dispatch({
+              type: 'SET_VISIBILITY_FILTER',
+              filter,
+            });
+          }}
+        />
       </div>
     );
   }

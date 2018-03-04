@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FilterLink = ({
-  filter, currentFilter, children, ...props
+  filter, currentFilter, children, onClick,
 }) => {
   if (filter === currentFilter) {
     return <span>{children}</span>;
@@ -12,7 +12,7 @@ const FilterLink = ({
       href="#"
       onClick={(e) => {
         e.preventDefault();
-        props.store.dispatch({ type: 'SET_VISIBILITY_FILTER', filter });
+        onClick(filter);
       }}
     >
       {children}
@@ -20,16 +20,16 @@ const FilterLink = ({
   );
 };
 
-const VisibilityFilter = ({ currentFilter, store }) => (
+const VisibilityFilter = ({ currentFilter, onFilterClick }) => (
   <p>
     {'Show: '}
-    <FilterLink filter="SHOW_ALL" currentFilter={currentFilter} store={store}>
+    <FilterLink filter="SHOW_ALL" currentFilter={currentFilter} onClick={onFilterClick}>
       All
     </FilterLink>{' '}
-    <FilterLink filter="SHOW_ACTIVE" currentFilter={currentFilter} store={store}>
+    <FilterLink filter="SHOW_ACTIVE" currentFilter={currentFilter} onClick={onFilterClick}>
       Active
     </FilterLink>{' '}
-    <FilterLink filter="SHOW_COMPLETED" currentFilter={currentFilter} store={store}>
+    <FilterLink filter="SHOW_COMPLETED" currentFilter={currentFilter} onClick={onFilterClick}>
       Completed
     </FilterLink>
   </p>
