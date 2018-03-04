@@ -1,26 +1,7 @@
 import React, { Component } from 'react';
 
 import Todo from './Todo';
-
-const FilterLink = ({
-  filter, currentFilter, children, ...props
-}) => {
-  if (filter === currentFilter) {
-    return <span>{children}</span>;
-  }
-
-  return (
-    <a
-      href="#"
-      onClick={(e) => {
-        e.preventDefault();
-        props.store.dispatch({ type: 'SET_VISIBILITY_FILTER', filter });
-      }}
-    >
-      {children}
-    </a>
-  );
-};
+import VisibilityFilter from './VisibilityFilter';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -62,30 +43,7 @@ class TodoApp extends Component {
             />
           ))}
         </ul>
-        <p>
-          {'Show: '}
-          <FilterLink
-            filter="SHOW_ALL"
-            currentFilter={this.props.visibilityFilter}
-            store={this.props.store}
-          >
-            All
-          </FilterLink>{' '}
-          <FilterLink
-            filter="SHOW_ACTIVE"
-            currentFilter={this.props.visibilityFilter}
-            store={this.props.store}
-          >
-            Active
-          </FilterLink>{' '}
-          <FilterLink
-            filter="SHOW_COMPLETED"
-            currentFilter={this.props.visibilityFilter}
-            store={this.props.store}
-          >
-            Completed
-          </FilterLink>
-        </p>
+        <VisibilityFilter currentFilter={this.props.visibilityFilter} store={this.props.store} />
       </div>
     );
   }
