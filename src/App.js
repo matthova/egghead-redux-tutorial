@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Todo from './Todo';
+
 const FilterLink = ({
   filter, currentFilter, children, ...props
 }) => {
@@ -52,19 +54,16 @@ class TodoApp extends Component {
         </button>
         <ul>
           {visibleTodos.map(todo => (
-            <li
-              onClick={() => {
-                this.props.store.dispatch({ type: 'TOGGLE_TODO', id: todo.id });
-              }}
-              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+            <Todo
+              onClick={() => this.props.store.dispatch({ type: 'TOGGLE_TODO', id: todo.id })}
+              completed={todo.completed}
+              text={todo.text}
               key={todo.id}
-            >
-              {todo.text}
-            </li>
+            />
           ))}
         </ul>
         <p>
-          Show:
+          {'Show: '}
           <FilterLink
             filter="SHOW_ALL"
             currentFilter={this.props.visibilityFilter}
