@@ -1,8 +1,40 @@
 import React, { Component } from 'react';
 
+const FilterLink = ({
+  filter, currentFilter, children, ...props
+}) => {
+  if (filter === currentFilter) {
+    return <span>{children}</span>;
+  }
+
+  return (
+    <a
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+        props.store.dispatch({ type: 'SET_VISIBILITY_FILTER', filter });
+      }}
+    >
+      {children}
+    </a>
+  );
+};
+
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return todos;
+    case 'SHOW_COMPLETED':
+      return todos.filter(t => t.completed);
+    case 'SHOW_ACTIVE':
+      return todos.filter(t => !t.completed);
+  }
+};
+
 let nextTodoId = 0;
 class TodoApp extends Component {
   render() {
+    const visibleTodos = getVisibleTodos(this.props.todos, this.props.visibilityFilter);
     return (
       <div>
         <input type="text" ref={ref => (this.input = ref)} />
@@ -19,7 +51,7 @@ class TodoApp extends Component {
           ADD TODO
         </button>
         <ul>
-          {this.props.todos.map(todo => (
+          {visibleTodos.map(todo => (
             <li
               onClick={() => {
                 this.props.store.dispatch({ type: 'TOGGLE_TODO', id: todo.id });
@@ -31,6 +63,30 @@ class TodoApp extends Component {
             </li>
           ))}
         </ul>
+        <p>
+          Show:
+          <FilterLink
+            filter="SHOW_ALL"
+            currentFilter={this.props.visibilityFilter}
+            store={this.props.store}
+          >
+            All
+          </FilterLink>{' '}
+          <FilterLink
+            filter="SHOW_ACTIVE"
+            currentFilter={this.props.visibilityFilter}
+            store={this.props.store}
+          >
+            Active
+          </FilterLink>{' '}
+          <FilterLink
+            filter="SHOW_COMPLETED"
+            currentFilter={this.props.visibilityFilter}
+            store={this.props.store}
+          >
+            Completed
+          </FilterLink>
+        </p>
       </div>
     );
   }
