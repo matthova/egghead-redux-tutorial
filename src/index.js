@@ -25,6 +25,8 @@ const todo = (state, action) => {
         ...state,
         completed: !state.completed,
       };
+    default:
+      return state;
   }
 };
 
@@ -50,8 +52,6 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
 
 const todoApp = combineReducers({ todos, visibilityFilter });
 const store = createStore(todoApp);
-
-console.log(store.getState());
 
 const render = () => {
   ReactDOM.render(<App store={store} {...store.getState()} />, document.getElementById('root'));

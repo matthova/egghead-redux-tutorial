@@ -18,7 +18,19 @@ class TodoApp extends Component {
         >
           ADD TODO
         </button>
-        <ul>{this.props.todos.map(todo => <li key={todo.id}>{todo.text}</li>)}</ul>
+        <ul>
+          {this.props.todos.map(todo => (
+            <li
+              onClick={() => {
+                this.props.store.dispatch({ type: 'TOGGLE_TODO', id: todo.id });
+              }}
+              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+              key={todo.id}
+            >
+              {todo.text}
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
@@ -26,7 +38,6 @@ class TodoApp extends Component {
 const App = props => (
   <div>
     <TodoApp {...props} />
-    <div>Hello World</div>
   </div>
 );
 
