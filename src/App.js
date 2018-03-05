@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import AddTodo from './AddTodo';
-import VisibleTodoList from './VisibleTodoList';
-import VisibilityFilter from './VisibilityFilter';
+import './styles/App.css';
+import AddTodo from './TodoComponents/AddTodo';
+import VisibleTodoList from './TodoComponents/VisibleTodoList';
+import VisibilityFilter from './TodoComponents/VisibilityFilter';
 
 const App = () => (
   <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import store from './store';
+import store from '../redux/store';
 
 let nextTodoId = 0;
 const AddTodo = ({ onAddClick }) => {
@@ -19,7 +19,7 @@ const AddTodo = ({ onAddClick }) => {
           input.value = '';
         }}
       >
-        ADD TODO
+        Add Todo
       </button>
     </div>
   );

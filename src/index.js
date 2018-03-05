@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import expect from 'expect';
 
-import './index.css';
+import './styles/index.css';
 import registerServiceWorker from './registerServiceWorker';
 import App from './App';
 

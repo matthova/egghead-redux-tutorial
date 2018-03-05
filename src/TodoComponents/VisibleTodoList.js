@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import TodoList from './TodoList';
-import store from './store';
+import store from '../redux/store';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -11,6 +11,8 @@ const getVisibleTodos = (todos, filter) => {
       return todos.filter(t => t.completed);
     case 'SHOW_ACTIVE':
       return todos.filter(t => !t.completed);
+    default:
+      return todos;
   }
 };
 
