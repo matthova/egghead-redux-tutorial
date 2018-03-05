@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import AddTodo from './AddTodo';
 import TodoList from './TodoList';
 import VisibilityFilter from './VisibilityFilter';
+import store from './store';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -16,35 +17,40 @@ const getVisibleTodos = (todos, filter) => {
 };
 
 let nextTodoId = 0;
-const TodoApp = ({ todos, store, visibilityFilter }) => {
-  const visibleTodos = getVisibleTodos(todos, visibilityFilter);
-  return (
-    <div>
-      <AddTodo
-        onAddClick={(text) => {
-          store.dispatch({
-            type: 'ADD_TODO',
-            id: nextTodoId++,
-            text,
-          });
-        }}
-      />
-      <TodoList
-        todos={visibleTodos}
-        onTodoClick={id => store.dispatch({ type: 'TOGGLE_TODO', id })}
-      />
-      <VisibilityFilter
-        currentFilter={visibilityFilter}
-        onFilterClick={(filter) => {
-          store.dispatch({
-            type: 'SET_VISIBILITY_FILTER',
-            filter,
-          });
-        }}
-      />
-    </div>
-  );
-};
+class TodoApp extends Component {
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() => this.forceUpdate());
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  render() {
+    const { todos, visibilityFilter } = store.getState();
+
+    const visibleTodos = getVisibleTodos(todos, visibilityFilter);
+
+    return (
+      <div>
+        <AddTodo
+          onAddClick={(text) => {
+            store.dispatch({
+              type: 'ADD_TODO',
+              id: nextTodoId++,
+              text,
+            });
+          }}
+        />
+        <TodoList
+          todos={visibleTodos}
+          onTodoClick={id => store.dispatch({ type: 'TOGGLE_TODO', id })}
+        />
+        <VisibilityFilter />
+      </div>
+    );
+  }
+}
 
 const App = props => (
   <div>

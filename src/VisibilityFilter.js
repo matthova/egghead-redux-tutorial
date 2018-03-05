@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import store from './store';
 
-const FilterLink = ({
-  filter, currentFilter, children, onClick,
-}) => {
-  if (filter === currentFilter) {
+const Link = ({ active, children, onClick }) => {
+  if (active) {
     return <span>{children}</span>;
   }
 
@@ -12,7 +11,7 @@ const FilterLink = ({
       href="#"
       onClick={(e) => {
         e.preventDefault();
-        onClick(filter);
+        onClick();
       }}
     >
       {children}
@@ -20,18 +19,45 @@ const FilterLink = ({
   );
 };
 
-const VisibilityFilter = ({ currentFilter, onFilterClick }) => (
+class FilterLink extends Component {
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() => {
+      this.forceUpdate();
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  render() {
+    const { filter, children } = this.props;
+    const state = store.getState();
+
+    return (
+      <Link
+        active={state.visibilityFilter === filter}
+        onClick={() =>
+          store.dispatch({
+            type: 'SET_VISIBILITY_FILTER',
+            filter: this.props.filter,
+          })
+        }
+      >
+        {children}
+      </Link>
+    );
+  }
+}
+
+const VisibilityFilter = () => (
   <p>
     {'Show: '}
-    <FilterLink filter="SHOW_ALL" currentFilter={currentFilter} onClick={onFilterClick}>
-      All
-    </FilterLink>{' '}
-    <FilterLink filter="SHOW_ACTIVE" currentFilter={currentFilter} onClick={onFilterClick}>
-      Active
-    </FilterLink>{' '}
-    <FilterLink filter="SHOW_COMPLETED" currentFilter={currentFilter} onClick={onFilterClick}>
-      Completed
-    </FilterLink>
+    <FilterLink filter="SHOW_ALL">All</FilterLink>
+    {', '}
+    <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>
+    {', '}
+    <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>
   </p>
 );
 
