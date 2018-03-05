@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import store from '../redux/store';
+import PropTypes from 'prop-types';
 
 const Link = ({ active, children, onClick }) => {
   if (active) {
@@ -21,6 +21,7 @@ const Link = ({ active, children, onClick }) => {
 
 class FilterLink extends Component {
   componentDidMount() {
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     });
@@ -31,6 +32,7 @@ class FilterLink extends Component {
   }
 
   render() {
+    const { store } = this.context;
     const { filter, children } = this.props;
     const state = store.getState();
 
@@ -49,6 +51,9 @@ class FilterLink extends Component {
     );
   }
 }
+FilterLink.contextTypes = {
+  store: PropTypes.object,
+};
 
 const VisibilityFilter = () => (
   <p>

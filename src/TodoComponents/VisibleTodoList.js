@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import TodoList from './TodoList';
-import store from '../redux/store';
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -18,6 +17,7 @@ const getVisibleTodos = (todos, filter) => {
 
 class VisibleTodoList extends Component {
   componentDidMount() {
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     });
@@ -28,6 +28,7 @@ class VisibleTodoList extends Component {
   }
 
   render() {
+    const { store } = this.context;
     const { todos, visibilityFilter } = store.getState();
 
     return (
@@ -43,5 +44,8 @@ class VisibleTodoList extends Component {
     );
   }
 }
+VisibleTodoList.contextTypes = {
+  store: PropTypes.object,
+};
 
 export default VisibleTodoList;
