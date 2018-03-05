@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 import './styles/index.css';
 import store from './redux/store';
