@@ -16,16 +16,18 @@ const getVisibleTodos = (todos, filter) => {
   }
 };
 
+const toggleTodo = id => ({
+  type: 'TOGGLE_TODO',
+  id,
+});
+
 const mapStateToProps = state => ({
   todos: getVisibleTodos(state.todos, state.visibilityFilter),
 });
 
 const mapDispatchToProps = dispatch => ({
   onTodoClick: (id) => {
-    dispatch({
-      type: 'TOGGLE_TODO',
-      id,
-    });
+    dispatch(toggleTodo(id));
   },
 });
 
