@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { toggleTodo } from '../actions';
 import TodoList from './TodoList';
 
 const getVisibleTodos = (todos, filter) => {
@@ -12,29 +11,20 @@ const getVisibleTodos = (todos, filter) => {
     case 'SHOW_ACTIVE':
       return todos.filter(t => !t.completed);
     default:
-      return todos;
+      throw new Error(`Unknown filter: ${filter}.`);
   }
 };
-
-const toggleTodo = id => ({
-  type: 'TOGGLE_TODO',
-  id,
-});
 
 const mapStateToProps = state => ({
   todos: getVisibleTodos(state.todos, state.visibilityFilter),
 });
 
 const mapDispatchToProps = dispatch => ({
-  onTodoClick: (id) => {
+  onTodoClick(id) {
     dispatch(toggleTodo(id));
   },
 });
 
 const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
-
-VisibleTodoList.contextTypes = {
-  store: PropTypes.object,
-};
 
 export default VisibleTodoList;

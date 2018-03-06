@@ -1,17 +1,12 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import ReactDOM from 'react-dom';
-
-import './styles/index.css';
-import store from './redux/store';
+import React from 'react';
+import { render } from 'react-dom';
+import Root from './components/Root';
+import configureStore from './configureStore';
 import registerServiceWorker from './registerServiceWorker';
-import App from './App';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
-);
+import { setVisibilityFilter } from './actions';
 
+const store = configureStore();
+
+render(<Root store={store} />, document.getElementById('root'));
 registerServiceWorker();
