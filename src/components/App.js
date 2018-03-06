@@ -13,8 +13,8 @@ const App = ({ match: { params } }) => {
   return (
     <div>
       <AddTodo />
-      <VisibleTodoList filter={filter} />
-      <Footer filter={filter} />
+      <VisibleTodoList />
+      <Footer />
     </div>
   );
 };
