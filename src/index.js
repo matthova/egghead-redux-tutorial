@@ -4,8 +4,6 @@ import Root from './components/Root';
 import configureStore from './configureStore';
 import registerServiceWorker from './registerServiceWorker';
 
-import { setVisibilityFilter } from './actions';
-
 const store = configureStore();
 
 render(<Root store={store} />, document.getElementById('root'));

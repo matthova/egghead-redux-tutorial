@@ -1,3 +1,6 @@
+import { combineReducers } from 'redux';
+import { VisibilityFilters } from '../actions';
+
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -19,15 +22,51 @@ const todo = (state, action) => {
   }
 };
 
-const todos = (state = [], action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_TODO':
-      return [...state, todo(undefined, action)];
     case 'TOGGLE_TODO':
-      return state.map(t => todo(t, action));
+      return {
+        ...state,
+        [action.id]: todo(state[action.id], action),
+      };
     default:
       return state;
   }
 };
 
+const allIds = (state = [], action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [...state, action.id];
+    default:
+      return state;
+  }
+};
+
+const todos = combineReducers({
+  byId,
+  allIds,
+});
+
 export default todos;
+
+const getAllTodos = state => state.allIds.map(id => state.byId[id]);
+
+export const getVisibleTodos = (inTodos, filter = 'SHOW_ALL') => {
+  const allTodos = getAllTodos(inTodos);
+
+  const urlFilter =
+    Object.keys(VisibilityFilters).find(key => VisibilityFilters[key] === filter) || 'SHOW_ALL';
+
+  switch (urlFilter) {
+    case 'SHOW_ALL':
+      return allTodos;
+    case 'SHOW_ACTIVE':
+      return allTodos.filter(t => !t.completed);
+    case 'SHOW_COMPLETED':
+      return allTodos.filter(t => t.completed);
+    default:
+      return allTodos;
+  }
+};
